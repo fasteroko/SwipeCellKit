@@ -11,7 +11,7 @@ import UIKit
 public typealias SwipeTableOptions = SwipeOptions
 
 /// The `SwipeOptions` class provides options for transistion and expansion behavior for swiped cell.
-public struct SwipeOptions {
+public class SwipeOptions: NSObject {
     /// The transition style. Transition is the style of how the action buttons are exposed during the swipe.
     public var transitionStyle: SwipeTransitionStyle = .border
     
@@ -44,13 +44,10 @@ public struct SwipeOptions {
     
     /// The amount of space, in points, between the button image and the button title.
     public var buttonSpacing: CGFloat?
-    
-    /// Constructs a new `SwipeOptions` instance with default options.
-    public init() {}
 }
 
 /// Describes the transition style. Transition is the style of how the action buttons are exposed during the swipe.
-public enum SwipeTransitionStyle {
+@objc public enum SwipeTransitionStyle: Int {
     /// The visible action area is equally divide between all action buttons.
     case border
     
@@ -62,15 +59,36 @@ public enum SwipeTransitionStyle {
 }
 
 /// Describes which side of the cell that the action buttons will be displayed.
-public enum SwipeActionsOrientation: CGFloat {
+@objc public enum SwipeActionsOrientation: Int {
+    
     /// The left side of the cell.
-    case left = -1
+    case left
     
     /// The right side of the cell.
-    case right = 1
+    case right
     
     var scale: CGFloat {
         return rawValue
+    }
+}
+
+/// RawRepresentable extension for SwipeActionsOrientation enum to provite backward compatibility for objective-c language.
+extension SwipeActionsOrientation: RawRepresentable {
+    public typealias RawValue = CGFloat
+    
+    public init?(rawValue: RawValue) {
+        switch rawValue {
+        case -1: self = .left
+        case 1: self = .right
+        default: return nil
+        }
+    }
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .left: return -1
+        case .right: return 1
+        }
     }
 }
 

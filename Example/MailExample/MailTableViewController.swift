@@ -55,17 +55,18 @@ class MailTableViewController: UITableViewController {
         return cell
     }
     
-    func visibleRect(for tableView: UITableView) -> CGRect? {
+    func visibleRect(for tableView: UITableView) -> NSValue? {
         if usesTallCells == false { return nil }
         
         if #available(iOS 11.0, *) {
-            return tableView.safeAreaLayoutGuide.layoutFrame
+            return NSValue(cgRect: tableView.safeAreaLayoutGuide.layoutFrame)
         } else {
             let topInset = navigationController?.navigationBar.frame.height ?? 0
             let bottomInset = navigationController?.toolbar?.frame.height ?? 0
             let bounds = tableView.bounds
             
-            return CGRect(x: bounds.origin.x, y: bounds.origin.y + topInset, width: bounds.width, height: bounds.height - bottomInset)
+            let cgRect = CGRect(x: bounds.origin.x, y: bounds.origin.y + topInset, width: bounds.width, height: bounds.height - bottomInset)
+            return NSValue(cgRect: cgRect)
         }
     }
     
