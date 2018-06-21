@@ -125,13 +125,13 @@ class SwipeActionsView: UIView {
             let actionButton = SwipeActionButton(action: action)
             actionButton.addTarget(self, action: #selector(actionTapped(button:)), for: .touchUpInside)
             actionButton.autoresizingMask = [.flexibleHeight, orientation == .right ? .flexibleRightMargin : .flexibleLeftMargin]
-            actionButton.spacing = options.buttonSpacing ?? 8
+            actionButton.spacing = options.buttonSpacing
             actionButton.contentEdgeInsets = buttonEdgeInsets(fromOptions: options)
             return actionButton
         })
         
-        let maximum = options.maximumButtonWidth ?? (size.width - 30) / CGFloat(actions.count)
-        let minimum = options.minimumButtonWidth ?? min(maximum, 74)
+        let maximum = options.maximumButtonWidth != 0 ? options.maximumButtonWidth : (size.width - 30) / CGFloat(actions.count)
+        let minimum = options.minimumButtonWidth != 0 ?  options.minimumButtonWidth : min(maximum, 74)
         minimumButtonWidth = buttons.reduce(minimum, { initial, next in max(initial, next.preferredWidth(maximum: maximum)) })
         
         
@@ -184,7 +184,7 @@ class SwipeActionsView: UIView {
     }
     
     func buttonEdgeInsets(fromOptions options: SwipeOptions) -> UIEdgeInsets {
-        let padding = options.buttonPadding ?? 8
+        let padding = options.buttonPadding
         return UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
     }
     
