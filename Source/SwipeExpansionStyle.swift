@@ -8,22 +8,22 @@
 import UIKit
 
 /// Describes the expansion style.  Expansion is the behavior when the cell is swiped past a defined threshold.
-public struct SwipeExpansionStyle {    
+public class SwipeExpansionStyle: NSObject {
     /// The default action performs a selection-type behavior. The cell bounces back to its unopened state upon selection and the row remains in the table/collection view.
-    public static var selection: SwipeExpansionStyle { return SwipeExpansionStyle(target: .percentage(0.5),
+    @objc public static var selection: SwipeExpansionStyle { return SwipeExpansionStyle(target: .percentage(0.5),
                                                                                   elasticOverscroll: true,
                                                                                   completionAnimation: .bounce) }
     
     /// The default action performs a destructive behavior. The cell is removed from the table/collection view in an animated fashion.
-    public static var destructive: SwipeExpansionStyle { return .destructive(automaticallyDelete: true, timing: .with) }
+    @objc public static var destructive: SwipeExpansionStyle { return .destructive(automaticallyDelete: true, timing: .with) }
 
     /// The default action performs a destructive behavior after the fill animation completes. The cell is removed from the table/collection view in an animated fashion.
-    public static var destructiveAfterFill: SwipeExpansionStyle { return .destructive(automaticallyDelete: true, timing: .after) }
+    @objc public static var destructiveAfterFill: SwipeExpansionStyle { return .destructive(automaticallyDelete: true, timing: .after) }
 
     /// The default action performs a fill behavior.
     ///
     /// - note: The action handle must call `SwipeAction.fulfill(style:)` to resolve the fill expansion.
-    public static var fill: SwipeExpansionStyle { return SwipeExpansionStyle(target: .edgeInset(30),
+    @objc public static var fill: SwipeExpansionStyle { return SwipeExpansionStyle(target: .edgeInset(30),
                                                                              additionalTriggers: [.overscroll(30)],
                                                                              completionAnimation: .fill(.manual(timing: .after))) }
 
@@ -49,18 +49,18 @@ public struct SwipeExpansionStyle {
     public let additionalTriggers: [Trigger]
     
     /// Specifies if buttons should expand to fully fill overscroll, or expand at a percentage relative to the overscroll.
-    public let elasticOverscroll: Bool
+    @objc public let elasticOverscroll: Bool
     
     /// Specifies the expansion animation completion style.
     public let completionAnimation: CompletionAnimation
     
     /// Specifies the minimum amount of overscroll required if the configured target is less than the fully exposed action view.
-    public var minimumTargetOverscroll: CGFloat = 20
+    @objc public var minimumTargetOverscroll: CGFloat = 20
     
     /// The amount of elasticity applied when dragging past the expansion target.
     ///
     /// - note: Default value is 0.2. Valid range is from 0.0 for no movement past the expansion target, to 1.0 for unrestricted movement with dragging.
-    public var targetOverscrollElasticity: CGFloat = 0.2
+    @objc public var targetOverscrollElasticity: CGFloat = 0.2
     
     var minimumExpansionTranslation: CGFloat = 8.0
     
