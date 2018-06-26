@@ -71,7 +71,7 @@ import UIKit
      
      - note: The returned rectange should be in the table view's own coordinate system. Returning `nil` will result in no vertical offset to be be calculated.
      */
-    func visibleRect(for tableView: UITableView) -> NSValue?
+    @objc optional func visibleRect(for tableView: UITableView) -> NSValue?
 }
 
 /**
