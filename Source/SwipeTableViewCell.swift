@@ -199,7 +199,8 @@ extension SwipeTableViewCell: SwipeControllerDelegate {
     func swipeController(_ controller: SwipeController, visibleRectFor scrollView: UIScrollView) -> CGRect? {
         guard let tableView = tableView else { return nil }
         
-        return delegate?.visibleRect(for: tableView)
+        let cgRectValue = delegate?.visibleRect?(for: tableView)?.cgRectValue
+        return cgRectValue
     }
     
     func swipeController(_ controller: SwipeController, willBeginEditingSwipeableFor orientation: SwipeActionsOrientation) {
@@ -210,7 +211,7 @@ extension SwipeTableViewCell: SwipeControllerDelegate {
         isPreviouslySelected = isSelected
         tableView.deselectRow(at: indexPath, animated: false)
         
-        delegate?.tableView(tableView, willBeginEditingRowAt: indexPath, for: orientation)
+        delegate?.tableView?(tableView, willBeginEditingRowAt: indexPath, for: orientation)
     }
     
     func swipeController(_ controller: SwipeController, didEndEditingSwipeableFor orientation: SwipeActionsOrientation) {
@@ -218,7 +219,7 @@ extension SwipeTableViewCell: SwipeControllerDelegate {
         
         resetSelectedState()
         
-        delegate?.tableView(tableView, didEndEditingRowAt: indexPath, for: actionsView.orientation)
+        delegate?.tableView?(tableView, didEndEditingRowAt: indexPath, for: actionsView.orientation)
     }
     
     func swipeController(_ controller: SwipeController, didDeleteSwipeableAt indexPath: IndexPath) {
